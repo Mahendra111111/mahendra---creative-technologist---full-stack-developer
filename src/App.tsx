@@ -15,7 +15,7 @@ import { Projects } from './components/Projects';
 import { About } from './components/About';
 import { Technologies } from './components/Technologies';
 import { Process } from './components/Process';
-import { Capabilities } from './components/Capabilities';
+
 import { FAQ } from './components/FAQ';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
@@ -109,8 +109,6 @@ export default function App() {
         {/* Process Methodology */}
         <Process />
 
-        {/* Capabilities Statements */}
-        <Capabilities />
 
         {/* FAQ Accordion */}
         <FAQ />
