@@ -67,8 +67,7 @@ export const Technologies: React.FC = () => {
           <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-3">
             {filteredTechnologies.map((tech) => {
               const isSelected = activeTech.id === tech.id;
-              const isConnected = activeTech.connectedTo.includes(tech.id);
-              const isDimmed = !isSelected && !isConnected && (hoveredTechId !== null || selectedTech !== null);
+              const isDimmed = !isSelected && (hoveredTechId !== null || selectedTech !== null);
 
               return (
                 <button
@@ -80,30 +79,19 @@ export const Technologies: React.FC = () => {
                   className={`p-4 text-left border rounded-[8px] transition-all duration-200 relative group focus:outline-none ${
                     isSelected
                       ? 'bg-[#000000] text-white border-[#000000] shadow-md scale-[1.02]'
-                      : isConnected
-                      ? 'bg-[#0000EE]/10 text-[#000000] border-[#0000EE] scale-[1.01]'
-                      : 'bg-[#EBE9E4] text-[#000000] border-[#000000]/15 hover:border-[#0000EE]'
+                      : 'bg-[#EBE9E4] text-[#000000] border-[#000000]/15 hover:border-[#000000]'
                   } ${isDimmed ? 'opacity-40' : 'opacity-100'}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <span
                       className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-[3px] ${
                         isSelected
-                          ? 'bg-[#0000EE] text-white'
-                          : isConnected
-                          ? 'bg-[#0000EE] text-white'
+                          ? 'bg-white text-black'
                           : 'bg-[#DFDDD9] text-[#555555]'
                       }`}
                     >
                       {tech.level}
                     </span>
-
-                    {isConnected && (
-                      <span className="text-[9px] font-mono text-[#0000EE] font-bold flex items-center gap-0.5">
-                        <Network className="w-3 h-3" />
-                        LINKED
-                      </span>
-                    )}
                   </div>
 
                   <div className="font-display text-xl sm:text-2xl uppercase tracking-tight leading-none mb-1">
