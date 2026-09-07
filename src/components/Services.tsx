@@ -1,64 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SERVICES } from '../data/services';
-import { ArrowUpRight, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 export const Services: React.FC = () => {
-  const [expandedId, setExpandedId] = useState<string | null>('full-stack-dev');
-
-  const toggleExpand = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
   return (
     <section
       id="services"
-      className="py-24 md:py-36 border-b border-[#000000]/15"
+      className="py-24 md:py-36 bg-[#000000] text-white border-b border-white/15 relative"
     >
       <div className="max-w-[1521px] mx-auto px-4 md:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-[#000000]/20 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-white/20 gap-4">
           <div>
-            <div className="text-xs font-mono text-[#0000EE] font-bold tracking-widest uppercase mb-2">
+            <div className="text-xs font-mono text-white/60 font-bold tracking-widest uppercase mb-2">
               CAPABILITIES &amp; ARCHITECTURE
             </div>
-            <h2 className="font-display text-[56px] sm:text-[76px] md:text-[96px] uppercase tracking-tight text-[#000000] leading-none">
+            <h2 className="font-display text-[56px] sm:text-[76px] md:text-[96px] uppercase tracking-tight text-white leading-none">
               WHAT I BUILD
             </h2>
           </div>
-          <div className="text-sm font-mono text-[#555555] max-w-md">
+          <div className="text-sm font-mono text-white/60 max-w-md">
             Custom engineered full-stack software tailored to ambitious business goals, from zero-to-one startups to enterprise platforms.
           </div>
         </div>
 
-        {/* Editorial Horizontal Rows */}
-        <div className="divide-y divide-[#000000]/15 border-y border-[#000000]/15">
-          {SERVICES.map((service) => {
-            const isExpanded = expandedId === service.id;
-
+        {/* Stacked Cards Container */}
+        <div className="relative pb-24">
+          {SERVICES.map((service, index) => {
             return (
               <div
                 key={service.id}
                 id={`service-row-${service.id}`}
-                className={`transition-all duration-300 ${
-                  isExpanded ? 'bg-[#DFDDD9]/40' : 'hover:bg-[#DFDDD9]/20'
-                }`}
+                className="sticky min-h-[90vh] shadow-[0_-10px_40px_rgba(0,0,0,0.8)] border-t border-white/15 bg-[#000000] pt-8 md:pt-12 pb-16 md:pb-24 transition-all duration-300"
+                style={{
+                  // All cards stick at the exact same position to cover the previous ones completely
+                  top: '10vh',
+                  // Ensure z-index increases so later cards stack on top of earlier ones properly
+                  zIndex: 10 + index,
+                }}
               >
-                {/* Clickable Header Row */}
-                <button
-                  onClick={() => toggleExpand(service.id)}
-                  className="w-full py-8 md:py-12 px-2 md:px-6 text-left flex flex-col lg:flex-row lg:items-center justify-between gap-6 group focus:outline-none focus-visible:bg-[#DFDDD9]"
-                  aria-expanded={isExpanded}
-                  aria-controls={`service-content-${service.id}`}
-                >
+                {/* Header Row */}
+                <div className="w-full px-2 md:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12">
                   <div className="flex items-baseline gap-6 md:gap-10">
-                    <span className="font-mono text-lg md:text-xl font-bold text-[#555555] group-hover:text-[#0000EE] transition-colors">
+                    <span className="font-mono text-lg md:text-xl font-bold text-white/40">
                       {service.number}
                     </span>
                     <div>
-                      <h3 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase tracking-tight text-[#000000] group-hover:text-[#0000EE] group-hover:translate-x-1.5 transition-all duration-300">
+                      <h3 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase tracking-tight text-white">
                         {service.title}
                       </h3>
-                      <div className="text-xs md:text-sm font-mono text-[#555555] mt-2">
+                      <div className="text-xs md:text-sm font-mono text-white/60 mt-2">
                         {service.shortDesc}
                       </div>
                     </div>
@@ -69,68 +60,55 @@ export const Services: React.FC = () => {
                       {service.tags.slice(0, 3).map((tag, idx) => (
                         <span
                           key={idx}
-                          className="text-[10px] font-mono border border-[#000000]/15 bg-[#EBE9E4] px-2 py-0.5 rounded-xs text-[#000000]"
+                          className="text-[10px] font-mono border border-white/20 bg-white/5 px-2 py-0.5 rounded-xs text-white"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
-
-                    <div className="w-10 h-10 rounded-full border border-[#000000]/20 flex items-center justify-center group-hover:border-[#0000EE] group-hover:bg-[#0000EE] group-hover:text-white transition-all duration-300">
-                      {isExpanded ? (
-                        <ChevronUp className="w-5 h-5" />
-                      ) : (
-                        <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
-                      )}
-                    </div>
                   </div>
-                </button>
+                </div>
 
-                {/* Expanded Detail Panel */}
-                {isExpanded && (
-                  <div
-                    id={`service-content-${service.id}`}
-                    className="px-4 md:px-16 pb-10 pt-2 border-t border-[#000000]/10 grid grid-cols-1 md:grid-cols-12 gap-8 animate-in fade-in duration-200"
-                  >
-                    <div className="md:col-span-5 space-y-4">
-                      <div className="text-xs font-mono text-[#0000EE] font-bold uppercase tracking-wider">
-                        SCOPE &amp; ARCHITECTURE
-                      </div>
-                      <p className="text-base text-[#000000] leading-relaxed">
-                        {service.fullDesc}
-                      </p>
-                      <div className="pt-2">
-                        <div className="text-xs font-mono text-[#555555] uppercase mb-2">
-                          PRIMARY TECHNOLOGIES:
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          {service.techStack.map((tech, tIdx) => (
-                            <span
-                              key={tIdx}
-                              className="text-xs font-mono bg-[#000000] text-white px-2.5 py-1 rounded-[4px]"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+                {/* Card Content Detail Panel */}
+                <div className="px-2 md:px-16 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16">
+                  <div className="md:col-span-5 space-y-4">
+                    <div className="text-xs font-mono text-white/60 font-bold uppercase tracking-wider">
+                      SCOPE &amp; ARCHITECTURE
                     </div>
-
-                    <div className="md:col-span-7 space-y-4 bg-[#EBE9E4] p-6 rounded-[8px] border border-[#000000]/15">
-                      <div className="text-xs font-mono text-[#000000] font-bold uppercase tracking-wider">
-                        KEY DELIVERABLES &amp; CAPABILITIES:
+                    <p className="text-base text-white/90 leading-relaxed">
+                      {service.fullDesc}
+                    </p>
+                    <div className="pt-6">
+                      <div className="text-xs font-mono text-white/50 uppercase mb-3">
+                        PRIMARY TECHNOLOGIES:
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {service.deliverables.map((deliv, dIdx) => (
-                          <div key={dIdx} className="flex items-start gap-2.5 text-xs text-[#000000]">
-                            <CheckCircle2 className="w-4 h-4 text-[#0000EE] shrink-0 mt-0.5" />
-                            <span>{deliv}</span>
-                          </div>
+                      <div className="flex flex-wrap gap-2">
+                        {service.techStack.map((tech, tIdx) => (
+                          <span
+                            key={tIdx}
+                            className="text-xs font-mono bg-white text-black px-3 py-1.5 rounded-[4px] font-bold"
+                          >
+                            {tech}
+                          </span>
                         ))}
                       </div>
                     </div>
                   </div>
-                )}
+
+                  <div className="md:col-span-7 space-y-4 bg-white/5 p-6 md:p-8 rounded-[8px] border border-white/10 backdrop-blur-sm">
+                    <div className="text-xs font-mono text-white/80 font-bold uppercase tracking-wider mb-6">
+                      KEY DELIVERABLES &amp; CAPABILITIES:
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                      {service.deliverables.map((deliv, dIdx) => (
+                        <div key={dIdx} className="flex items-start gap-3 text-sm text-white/80 leading-relaxed">
+                          <CheckCircle2 className="w-4 h-4 text-white shrink-0 mt-1 opacity-70" />
+                          <span>{deliv}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             );
           })}
